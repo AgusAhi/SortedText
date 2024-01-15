@@ -1,9 +1,5 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 public class SortedText {
     public static void main(String[] args) throws IOException {
@@ -36,10 +32,29 @@ public class SortedText {
         }
     }
 
-    private static void writeListToFile(String arg, List<String> list) {
-
+    private static void writeListToFile(String filename, List<String> list) throws IOException {
+        File original = new File(filename);
+        File outputFile = new File("temp.txt");
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter(new FileWriter(outputFile));
+            /* for (String line: list) {
+                out.println(line);
+            } Equivalente con el Iterator */
+            Iterator<String> iterator = list.listIterator();
+            while (iterator.hasNext()) {
+                out.println(iterator.next());
+            }
+            original.delete();
+            outputFile.renameTo(original);
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
     }
 
     private static void sortedList(List<String> list) {
+        Collections.sort(list);
     }
 }
